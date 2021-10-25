@@ -1,8 +1,12 @@
 from modules.jsons import jsons
 import pygame
+import json
+import os
 
-config_json = jsons().check()
-print(config_json)
+jsons().check()
+
+with open(f"{os.getenv('APPDATA')}\ProjectRedAdventure\config.json", "r") as json_file:
+    config_json = json.load(json_file)
 
 #stats of game
 if config_json['screen']['mode'] == 1:
