@@ -23,5 +23,5 @@ while True:
         #quit game
         if event.type == pygame.QUIT:
             break
-
+#писать начал но отправили спать
 pygame.quit()
