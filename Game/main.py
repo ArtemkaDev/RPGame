@@ -24,4 +24,5 @@ while True:
         if event.type == pygame.QUIT:
             break
 #писать начал но отправили спать
+#1 img просто для закидывания туда мусора из картинок и тп.
 pygame.quit()
