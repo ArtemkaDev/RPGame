@@ -1,30 +1,35 @@
-from kivy.uix.widget import Widget
-from kivy.core.window import Window
-from kivy.graphics import Rectangle
-from kivy.app import App
+import pygame
+import json
+import os
 
+#folder in appdata
+appdata = os.getenv('APPDATA')
+name = f"{appdata}\ProjectRedAdventure"
+file_json = {
+    "screen": {
+        "mode": 1,
+        "width": None,
+        "heigth": None
+    }
+}
 
-#main class
-class GameWidget(Widget):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self._keyboard = Window.request_keyboard(self._on_keyboard_closed, self)
-        self._keyboard.bind(on_key_down=self._on_key_down)
+if os.path.exists(name):
+    os.mkdir(os.path.join(appdata, "ProjectRedAdventure"))
+    os.system("attrib +h " + name)
+    with open(f"{name}\config.json", "w+") as f:
+        json.dump(file_json, f)
 
-    def _on_keyboard_closed(self):
-        self._keyboard.unbind(on_key_down=self._on_key_down)
-        self._keyboard = None
+#stats of game
+if type_screen == 1:
+    pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+elif type_screen == 2:
+    pygame.display.set_mode(())
 
-    def _on_key_down(self, keyboard, keycode, text, modifires):
-        with self.canvas:
-            Rectangle()
+#run
+while True:
+    for event in pygame.event.get():
+        #quit game
+        if event.type == pygame.QUIT:
+            break
 
-
-#start
-class MyApp(App):
-    def build(self):
-        return GameWidget()
-
-
-if __name__ == '__main__':
-    MyApp().run()
+pygame.quit()
