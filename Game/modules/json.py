@@ -17,7 +17,6 @@ class json(object):
         self.name = name
         self.file.json = file_json
 
-    @classmethod
     def check(self):
         if os.path.exists(self.name):
             os.mkdir(os.path.join(self.appdata, "ProjectRedAdventure"))

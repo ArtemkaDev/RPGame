@@ -1,7 +1,7 @@
 from modules.json import json
 import pygame
 
-config_json = json()
+config_json = json.check()
 
 #stats of game
 if config_json['screen']['mode'] == 1:
