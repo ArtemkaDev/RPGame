@@ -23,6 +23,6 @@ class json(object):
             with open(f"{self.name}\config.json", "w+") as f:
                 json.dump(self.file_json, f)
     def __str__(self):
-        with open(f"{name}\config.json", "r") as json_file:
+        with open(f"{self.name}\config.json", "r") as json_file:
             config_json = json.load(json_file)
         return config_json
