@@ -6,8 +6,8 @@ name = f"{appdata}\ProjectRedAdventure"
 file_json = {
     "screen": {
         "mode": 1,
-        "width": None,
-        "height": None
+        "width": 800,
+        "height": 800
     }
 }
 
