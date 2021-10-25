@@ -1,7 +1,7 @@
-from modules.jsons import json
+from modules.jsons import jsons
 import pygame
 
-config_json = json().check()
+config_json = jsons().check()
 print(config_json)
 
 #stats of game

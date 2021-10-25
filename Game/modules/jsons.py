@@ -11,7 +11,7 @@ file_json = {
     }
 }
 
-class json(object):
+class jsons(object):
     def __init__(self):
         self.appdata = appdata
         self.name = name
