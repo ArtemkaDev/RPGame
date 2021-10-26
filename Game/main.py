@@ -36,5 +36,4 @@ while True:
             break
     pygame.display.update()#update
 
-#1 img просто для закидывания туда мусора из картинок и тп.
 pygame.quit()
