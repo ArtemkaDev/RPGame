@@ -1,9 +1,8 @@
 from modules.jsons import jsons
+from modules.player import Solider
 import pygame
 import json
 import os
-
-player = 'img/Layer 1.png'
 
 jsons().check()
 
@@ -20,13 +19,10 @@ else:
 #stats of game
 pygame.display.set_caption('ProjectRed Adventures')#game name
 #create player
-x = 200
-y = 200
-img = pygame.image.load(player)
-rect = img.get_rect()
-rect.center = (x, y)
+player = Solider(200, 200, 3)
+
 #load player
-screen.blit(img, rect)
+screen.blit(player.img, player.rect)
 
 #run
 while True:
