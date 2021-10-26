@@ -10,23 +10,23 @@ jsons().check()
 with open(os.path.expanduser(f"{os.getenv('APPDATA')}\ProjectRedAdventure\config.json"), "r") as json_file:
     config_json = json.load(json_file)
 
-#stats of game
+#stats of screen
 if config_json['screen']['mode'] == 1:
-    pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-    pygame.display.set_caption('ProjectRed Adventures')#game name
-    #create player
-    x = 200
-    y = 200
-    img = pygame.image.load(player)
-    rect = img.get_rect()
-    rect.center = (x, y)
-    #load player
-    config_json['screen'].blit(img, rect)#AttributeError: 'dict' object has no attribute 'blit'
-
+    screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 elif config_json['screen']['mode'] == 2:
-    pygame.display.set_mode((config_json['screen']['width'], config_json['screen']['height']))
+    screen = pygame.display.set_mode((config_json['screen']['width'], config_json['screen']['height']))
 else:
     print("Error")
+#stats of game
+pygame.display.set_caption('ProjectRed Adventures')#game name
+#create player
+x = 200
+y = 200
+img = pygame.image.load(player)
+rect = img.get_rect()
+rect.center = (x, y)
+#load player
+screen.blit(img, rect)
 
 #run
 while True:
@@ -34,6 +34,6 @@ while True:
         #quit game
         if event.type == pygame.QUIT:
             break
-    pygame.display.update()#update
+    pygame.display.update() #update
 
 pygame.quit()
