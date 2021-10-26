@@ -11,7 +11,8 @@ file_json = {
         "mode": 1,
         "width": None,
         "height": None
-    }
+    },
+    "fps": 60
 }
 
 class jsons(object):
