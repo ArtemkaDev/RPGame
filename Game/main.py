@@ -7,7 +7,7 @@ player = 'img/Layer 1.png'
 
 jsons().check()
 
-with open(f"{os.getenv('APPDATA')}\ProjectRedAdventure\config.json", "r") as json_file:
+with open(os.path.expanduser(f"{os.getenv('APPDATA')}\ProjectRedAdventure\config.json"), "r") as json_file:
     config_json = json.load(json_file)
 
 #stats of game
