@@ -19,13 +19,13 @@ else:
 #stats of game
 pygame.display.set_caption('ProjectRed Adventures')#game name
 #create player
-player = Solider(200, 200, 3)
+player = Solider(200, 200, 3, screen)
 
-#load player
-screen.blit(player.img, player.rect)
+
 
 #run
 while True:
+    player.draw()
     for event in pygame.event.get():
         #quit game
         if event.type == pygame.QUIT:
