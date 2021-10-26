@@ -21,10 +21,16 @@ else:
 clock = pygame.time.Clock()
 fps = config_json['fps']
 
+BG = (144, 201, 120)
+
+def draw_bg():
+    screen.fill(BG)
+
+
 #stats of game
 pygame.display.set_caption('ProjectRed Adventures')#game name
 #create player
-player = Solider(200, 200, 3, 5,screen)
+player = Solider(200, 600, 3, 5,screen)
 
 moving_left = False
 moving_right = False
@@ -32,6 +38,7 @@ moving_right = False
 #run
 while True:
     clock.tick(fps)
+    draw_bg()
     player.draw()
     player.move(moving_left, moving_right)
     for event in pygame.event.get():
