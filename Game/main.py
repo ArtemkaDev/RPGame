@@ -21,7 +21,7 @@ if config_json['screen']['mode'] == 1:
     rect = img.get_rect()
     rect.center = (x, y)
     #load player
-    config_json['screen'].blit(img, rect)
+    config_json['screen'].blit(img, rect)#AttributeError: 'dict' object has no attribute 'blit'
 
 elif config_json['screen']['mode'] == 2:
     pygame.display.set_mode((config_json['screen']['width'], config_json['screen']['height']))
@@ -36,5 +36,4 @@ while True:
             break
     pygame.display.update()#update
 
-#1 img просто для закидывания туда мусора из картинок и тп.
 pygame.quit()
