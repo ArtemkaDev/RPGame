@@ -1,6 +1,9 @@
 import json
 import os
 
+#import pygame.image
+
+player = 'img/Layer1.png'
 appdata = os.getenv('APPDATA')
 name = f"{appdata}\ProjectRedAdventure"
 file_json = {
