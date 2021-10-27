@@ -35,6 +35,7 @@ player = Solider(200, 600, 3, 5,screen)
 moving_left = False
 moving_right = False
 
+
 #run
 while True:
     clock.tick(fps)
