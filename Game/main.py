@@ -40,6 +40,7 @@ moving_right = False
 while True:
     clock.tick(fps)
     draw_bg()
+    player.update_animation()
     player.draw()
     player.move(moving_left, moving_right)
     for event in pygame.event.get():
