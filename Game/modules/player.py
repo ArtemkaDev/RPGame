@@ -13,6 +13,10 @@ class Solider(pygame.sprite.Sprite):
             img = pygame.image.load(f'img/players/default/{i}.png')
             img = pygame.transform.scale(img, (int(img.get_width() * self.scale), int(img.get_height() * self.scale)))
             self.animation_list.append(img)
+        for i in range(6):
+            img = pygame.image.load(f'img/players/run/{i}.png')
+            img = pygame.transform.scale(img, (int(img.get_width() * self.scale), int(img.get_height() * self.scale)))
+            self.animation_list.append(img)
         self.image = self.animation_list[self.frame_index]
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
