@@ -50,6 +50,13 @@ def draw_bg():
 pygame.display.set_caption('ProjectRed Adventures')  # game name
 
 
+# fps
+def display_fps():
+    font = pygame.font.SysFont("Arial", 18)
+    text_to_show = font.render(str(int(clock.get_fps())))
+    screen.blit(text_to_show, (20, 20))
+
+
 # create player
 player = Solider(200, 600, 3, 5, screen)
 
@@ -59,13 +66,16 @@ pygame.font.init()
 while True:
     clock.tick(fps)
     if authorizat:
+
+        draw_bg()
+        player.update_animation()
+        player.draw()
+
         if moving_left or moving_right:
             player.update_action(1) #run
         else:
             player.update_action(0) #stay
-        draw_bg()
-        player.update_animation()
-        player.draw()
+
         player.move(moving_left, moving_right)
         for event in pygame.event.get():
             # quit game
@@ -82,6 +92,7 @@ while True:
                 if event.key == pygame.K_d:
                     moving_right = False
         pygame.display.update()  # update
+
     else:
         pass
 

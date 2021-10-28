@@ -2,7 +2,7 @@ import pygame
 
 
 class Solider(pygame.sprite.Sprite):
-    def __init__(self, x, y, scale, speed,screen):
+    def __init__(self, x, y, scale, speed, screen):
         pygame.sprite.Sprite.__init__(self)
         self.scale = scale
         self.speed = speed
