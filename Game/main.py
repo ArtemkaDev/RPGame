@@ -1,6 +1,5 @@
 from modules.player import Solider
 from modules.jsons import jsons
-from threading import Thread
 import socket
 import pygame
 import json
@@ -54,34 +53,20 @@ pygame.display.set_caption('ProjectRed Adventures')  # game name
 # fps
 def display_fps():
     font = pygame.font.SysFont("Arial", 18)
-    text_to_show = font.render(str(int(clock.get_fps())), 0, pygame.Color("white"))
-    screen.blit(text_to_show, (0, 0))
+    text_to_show = font.render(str(int(clock.get_fps())))
+    screen.blit(text_to_show, (20, 20))
 
 
 # create player
 player = Solider(200, 600, 3, 5, screen)
 
-
-# move
-def move():
-    if event.type == pygame.KEYDOWN:
-        if event.key == pygame.K_a:
-            moving_left = True
-        if event.key == pygame.K_d:
-            moving_right = True
-    if event.type == pygame.KEYUP:
-        if event.key == pygame.K_a:
-            moving_left = False
-        if event.key == pygame.K_d:
-            moving_right = False
-
-
-move_run = Thread(target=move)
+pygame.font.init()
 
 # run
 while True:
     clock.tick(fps)
-    if authorizat is True:
+    display_fps()
+    if authorizat:
         draw_bg()
         player.update_animation()
         player.draw()
@@ -90,7 +75,16 @@ while True:
             # quit game
             if event.type == pygame.QUIT:
                 break
-            move_run.start()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_a:
+                    moving_left = True
+                if event.key == pygame.K_d:
+                    moving_right = True
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_a:
+                    moving_left = False
+                if event.key == pygame.K_d:
+                    moving_right = False
         pygame.display.update()  # update
     else:
         pass
