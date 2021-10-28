@@ -1,8 +1,19 @@
 from modules.player import Solider
 from modules.jsons import jsons
+import socket
 import pygame
 import json
 import os
+
+#network
+host = socket.gethostbyname(socket.gethostname())
+port = 0
+
+servers = ("192.168.0.101",5000)
+
+server = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+server.bind((host,port))
+server.setblocking(0)
 
 #json
 jsons().check()
