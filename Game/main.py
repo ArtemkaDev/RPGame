@@ -1,5 +1,5 @@
-from modules.jsons import jsons
 from modules.player import Solider
+from modules.jsons import jsons
 import pygame
 import json
 import os
@@ -30,11 +30,10 @@ def draw_bg():
 #stats of game
 pygame.display.set_caption('ProjectRed Adventures')#game name
 #create player
-player = Solider(200, 600, 3, 5,screen)
+player = Solider(200, 600, 3, 5, screen)
 
 moving_left = False
 moving_right = False
-
 
 #run
 while True:
@@ -57,7 +56,6 @@ while True:
                 moving_left = False
             if event.key == pygame.K_d:
                 moving_right = False
-
     pygame.display.update() #update
 
 pygame.quit()
