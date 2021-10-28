@@ -9,7 +9,9 @@ import os
 #value
 servers = ("192.168.0.101", 5000)
 in_game = False
-authorizat = False
+#сделать то что снизу на False когда сделаешь авторизацию
+authorizat = True
+#сверху
 moving_left = False
 moving_right = False
 
