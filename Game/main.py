@@ -60,7 +60,6 @@ def display_fps():
 # create player
 player = Solider(200, 600, 3, 5, screen)
 
-pygame.font.init()
 
 # run
 while True:
