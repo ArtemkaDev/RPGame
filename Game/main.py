@@ -67,6 +67,10 @@ while True:
     clock.tick(fps)
     display_fps()
     if authorizat:
+        if moving_left or moving_right:
+            player.update_action(1) #run
+        else:
+            player.update_action(0) #stay
         draw_bg()
         player.update_animation()
         player.draw()
