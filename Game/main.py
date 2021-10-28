@@ -1,6 +1,5 @@
 from modules.player import Solider
 from modules.jsons import jsons
-from threading import Thread
 import socket
 import pygame
 import json
@@ -62,26 +61,10 @@ def display_fps():
 player = Solider(200, 600, 3, 5, screen)
 
 
-# move
-def move():
-    if event.type == pygame.KEYDOWN:
-        if event.key == pygame.K_a:
-            moving_left = True
-        if event.key == pygame.K_d:
-            moving_right = True
-    if event.type == pygame.KEYUP:
-        if event.key == pygame.K_a:
-            moving_left = False
-        if event.key == pygame.K_d:
-            moving_right = False
-
-
-move_run = Thread(target=move)
-
 # run
 while True:
     clock.tick(fps)
-    if authorizat is True:
+    if authorizat:
         draw_bg()
         player.update_animation()
         player.draw()
@@ -90,7 +73,16 @@ while True:
             # quit game
             if event.type == pygame.QUIT:
                 break
-            move_run.start()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_a:
+                    moving_left = True
+                if event.key == pygame.K_d:
+                    moving_right = True
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_a:
+                    moving_left = False
+                if event.key == pygame.K_d:
+                    moving_right = False
         pygame.display.update()  # update
     else:
         pass
