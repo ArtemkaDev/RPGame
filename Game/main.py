@@ -53,7 +53,6 @@ pygame.display.set_caption('ProjectRed Adventures')  # game name
 # create player
 player = Solider(200, 600, 3, 5, screen)
 
-pygame.font.init()
 
 # run
 while True:
