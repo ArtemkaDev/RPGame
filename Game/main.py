@@ -1,6 +1,5 @@
 from modules.player import Solider
 from modules.jsons import jsons
-import socket
 import pygame
 import json
 import os
@@ -8,7 +7,6 @@ import os
 pygame.font.init()
 
 # value
-servers = ("192.168.0.101", 5000)
 in_game = False
 # сделать то что снизу на False когда сделаешь авторизацию
 authorizat = True
@@ -17,13 +15,6 @@ moving_left = False
 moving_right = False
 base_font = pygame.font.SysFont("Futura", 48)
 
-# network
-host = socket.gethostbyname(socket.gethostname())
-port = 0
-
-server = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-server.bind((host, port))
-server.setblocking(0)
 
 # json
 jsons().check()
