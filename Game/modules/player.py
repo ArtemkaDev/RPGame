@@ -14,13 +14,13 @@ class Solider(pygame.sprite.Sprite):
         self.update_time = pygame.time.get_ticks()
         temp_list = []
         for i in range(5):
-            img = pygame.image.load(f'img/players/{self.char_type}/stay/{i}.png')
+            img = pygame.image.load(f'img/players/{self.char_type}/stay/{i}.png').convert()
             img = pygame.transform.scale(img, (int(img.get_width() * self.scale), int(img.get_height() * self.scale)))
             temp_list.append(img)
         self.animation_list.append(temp_list)
         temp_list = []
         for i in range(6):
-            img = pygame.image.load(f'img/players/{self.char_type}/run/{i}.png')
+            img = pygame.image.load(f'img/players/{self.char_type}/run/{i}.png').convert()
             img = pygame.transform.scale(img, (int(img.get_width() * self.scale), int(img.get_height() * self.scale)))
             temp_list.append(img)
         self.animation_list.append(temp_list)
