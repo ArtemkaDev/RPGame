@@ -5,6 +5,8 @@ import pygame
 import json
 import os
 
+pygame.font.init()
+
 # value
 servers = ("192.168.0.101", 5000)
 in_game = False
@@ -13,6 +15,7 @@ authorizat = True
 # сверху
 moving_left = False
 moving_right = False
+base_font = pygame.font.SysFont("Futura", 48)
 
 # network
 host = socket.gethostbyname(socket.gethostname())
@@ -52,28 +55,25 @@ pygame.display.set_caption('ProjectRed Adventures')  # game name
 
 # fps
 def display_fps():
-    font = pygame.font.SysFont("Arial", 18)
-    text_to_show = font.render(str(int(clock.get_fps())))
-    screen.blit(text_to_show, (20, 20))
+    text_to_show = base_font.render(str(int(clock.get_fps())), 0, pygame.Color("white"))
+    screen.blit(text_to_show, (10, 10))
 
 
 # create player
-player = Solider(200, 600, 3, 5, screen)
-
+player = Solider("default", 200, 600, 3, 5, screen)
 
 # run
 while True:
     clock.tick(fps)
     if authorizat:
-
         draw_bg()
         player.update_animation()
         player.draw()
-
+        display_fps()
         if moving_left or moving_right:
-            player.update_action(1) #run
+            player.update_action(1)  # run
         else:
-            player.update_action(0) #stay
+            player.update_action(0)  # stay
 
         player.move(moving_left, moving_right)
         for event in pygame.event.get():
@@ -91,8 +91,7 @@ while True:
                 if event.key == pygame.K_d:
                     moving_right = False
         pygame.display.update()  # update
-
     else:
-        pass
+        screen.fill(BG)
 
 pygame.quit()

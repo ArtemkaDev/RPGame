@@ -2,22 +2,25 @@ import pygame
 
 
 class Solider(pygame.sprite.Sprite):
-    def __init__(self, x, y, scale, speed, screen):
+    def __init__(self, char_type, x, y, scale, speed, screen):
         pygame.sprite.Sprite.__init__(self)
         self.scale = scale
         self.speed = speed
         self.animation_list = []
         self.frame_index = 0
         self.action = 0
+        self.flip = False
+        self.char_type = char_type
         self.update_time = pygame.time.get_ticks()
         temp_list = []
         for i in range(5):
-            img = pygame.image.load(f'img/players/default/{i}.png')
+            img = pygame.image.load(f'img/players/{self.char_type}/stay/{i}.png')
             img = pygame.transform.scale(img, (int(img.get_width() * self.scale), int(img.get_height() * self.scale)))
             temp_list.append(img)
         self.animation_list.append(temp_list)
+        temp_list = []
         for i in range(6):
-            img = pygame.image.load(f'img/players/run/{i}.png')
+            img = pygame.image.load(f'img/players/{self.char_type}/run/{i}.png')
             img = pygame.transform.scale(img, (int(img.get_width() * self.scale), int(img.get_height() * self.scale)))
             temp_list.append(img)
         self.animation_list.append(temp_list)
@@ -27,15 +30,17 @@ class Solider(pygame.sprite.Sprite):
         self.screen = screen
 
     def draw(self):
-        self.screen.blit(self.image, self.rect)
+        self.screen.blit(pygame.transform.flip(self.image, self.flip, False), self.rect)
 
 
     def move(self, moving_left, moving_right):
         dx = 0
         dy = 0
         if moving_left:
+            self.flip = True
             dx = -self.speed
         if moving_right:
+            self.flip = False
             dx = self.speed
         self.rect.x += dx
         self.rect.y += dy
