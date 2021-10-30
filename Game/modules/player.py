@@ -1,5 +1,8 @@
 import pygame
 
+#global values
+gravity = 0.75
+
 
 class Solider(pygame.sprite.Sprite):
     def __init__(self, char_type, x, y, scale, speed, screen):
@@ -10,6 +13,9 @@ class Solider(pygame.sprite.Sprite):
         self.animation_list = []
         self.frame_index = 0
         self.action = 0
+        self.direction = 1
+        self.vel_y = 0
+        self.jump = False
         self.flip = False
         self.char_type = char_type
         self.update_time = pygame.time.get_ticks()
@@ -43,6 +49,14 @@ class Solider(pygame.sprite.Sprite):
         if moving_right:
             self.flip = False
             dx = self.speed
+        if self.jump == True:
+            self.vel_y = -11
+            self.jump = False
+        self.vel_y += gravity
+        if self.vel_y > 10:
+            self.vel_y
+        dy += self.vel_y
+
         self.rect.x += dx
         self.rect.y += dy
 

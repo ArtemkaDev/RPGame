@@ -19,6 +19,7 @@ moving_right = False
 base_font = pygame.font.SysFont("Futura", 48)
 
 
+
 # json
 jsons().check()
 
@@ -40,9 +41,11 @@ fps = config_json['fps']
 
 #background
 BG = (144, 201, 120)
+RED = (255, 0, 0)
 
 def draw_bg():
     screen.fill(BG)
+    pygame.draw.line(screen, RED (0, 300), (screen, 300))
 
 
 # stats of game
@@ -94,11 +97,15 @@ def main():
                     moving_left = True
                 elif event.key == pygame.K_d:
                     moving_right = True
+                elif event.key == pygame.K_w and player.alive:
+                    player.jump = True
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_a:
                     moving_left = False
                 elif event.key == pygame.K_d:
                     moving_right = False
+                elif event.key == pygame.K_w:
+                    player.jump = False
         pygame.display.update()  # update
         clock.tick(fps)
 
