@@ -15,7 +15,6 @@ moving_left = False
 moving_right = False
 base_font = pygame.font.SysFont("Futura", 48)
 
-
 # json
 jsons().check()
 
@@ -51,8 +50,7 @@ def display_fps():
 
 
 # create player
-player = Solider("default" ,200, 600, 3, 5, screen)
-
+player = Solider("default", 200, 600, 3, 5, screen)
 
 # run
 while True:
@@ -63,9 +61,9 @@ while True:
         player.draw()
         display_fps()
         if moving_left or moving_right:
-            player.update_action(1) #run
+            player.update_action(1)  # run
         else:
-            player.update_action(0) #stay
+            player.update_action(0)  # stay
 
         player.move(moving_left, moving_right)
         for event in pygame.event.get():
