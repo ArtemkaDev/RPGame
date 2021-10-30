@@ -4,6 +4,7 @@ import pygame
 class Solider(pygame.sprite.Sprite):
     def __init__(self, char_type, x, y, scale, speed, screen):
         pygame.sprite.Sprite.__init__(self)
+        self.alive = True
         self.scale = scale
         self.speed = speed
         self.animation_list = []

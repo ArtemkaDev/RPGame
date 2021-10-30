@@ -69,43 +69,54 @@ user_text = ''
 
 
 # run
-if __name__ == '__main__':
+
+def main():
+    global moving_left
+    global moving_right
     while True:
-        if authorizat:
-            draw_bg()
-            player.update_animation()
-            player.draw()
-            display_fps()
+        draw_bg()
+        player.update_animation()
+        player.draw()
+        display_fps()
+        if player.alive:
             if moving_left or moving_right:
                 player.update_action(1)  # run
             else:
                 player.update_action(0)  # stay
 
-            player.move(moving_left, moving_right)
-            for event in pygame.event.get():
-                # quit game
-                if event.type == pygame.QUIT:
-                    stop()
-                elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_a:
-                        moving_left = True
-                    elif event.key == pygame.K_d:
-                        moving_right = True
-                elif event.type == pygame.KEYUP:
-                    if event.key == pygame.K_a:
-                        moving_left = False
-                    elif event.key == pygame.K_d:
-                        moving_right = False
-            pygame.display.update()  # update
-        else:
-            draw_bg()
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    stop()
-                elif event.type == pygame.KEYDOWN:
-                    if event.type == pygame.K_BACKSPACE:
-                        user_text = user_text[:-1]
-                    else:
-                        user_text += event.unicode
-            
+        player.move(moving_left, moving_right)
+        for event in pygame.event.get():
+            # quit game
+            if event.type == pygame.QUIT:
+                stop()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_a:
+                    moving_left = True
+                elif event.key == pygame.K_d:
+                    moving_right = True
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_a:
+                    moving_left = False
+                elif event.key == pygame.K_d:
+                    moving_right = False
+        pygame.display.update()  # update
         clock.tick(fps)
+
+def authori():
+    while True:
+        draw_bg()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                stop()
+            elif event.type == pygame.KEYDOWN:
+                if event.type == pygame.K_BACKSPACE:
+                    user_text = user_text[:-1]
+                else:
+                    user_text += event.unicode
+        clock.tick(fps)
+
+if __name__ == '__main__':
+    if authorizat:
+        main()
+    else:
+        authori()
