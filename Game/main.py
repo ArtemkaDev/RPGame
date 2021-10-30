@@ -2,6 +2,7 @@ from modules.player import Solider
 from modules.jsons import jsons
 import pygame
 import json
+import sys
 import os
 
 pygame.font.init()
@@ -70,18 +71,30 @@ while True:
             # quit game
             if event.type == pygame.QUIT:
                 break
-            if event.type == pygame.KEYDOWN:
+            elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_a:
                     moving_left = True
-                if event.key == pygame.K_d:
+                elif event.key == pygame.K_d:
                     moving_right = True
-            if event.type == pygame.KEYUP:
+            elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_a:
                     moving_left = False
-                if event.key == pygame.K_d:
+                elif event.key == pygame.K_d:
                     moving_right = False
         pygame.display.update()  # update
     else:
+        user_text = ''
         screen.fill(BG)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                break
+            elif event.type == pygame.KEYDOWN:
+                if event.type == pygame.K_BACKSPACE:
+                    user_text = user_text[:-1]
+                else:
+                    user_text += event.unicode
+
+
 
 pygame.quit()
+sys.exit()
