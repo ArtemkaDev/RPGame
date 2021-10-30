@@ -5,7 +5,9 @@ import json
 import sys
 import os
 
+
 pygame.font.init()
+
 
 # value
 in_game = False
@@ -16,11 +18,13 @@ moving_left = False
 moving_right = False
 base_font = pygame.font.SysFont("Futura", 48)
 
+
 # json
 jsons().check()
 
 with open(os.path.expanduser(f"{os.getenv('APPDATA')}\ProjectRedAdventure\config.json"), "r") as json_file:
     config_json = json.load(json_file)
+
 
 # stats of screen
 if config_json['screen']['mode'] == 1:
@@ -33,8 +37,9 @@ else:
 clock = pygame.time.Clock()
 fps = config_json['fps']
 
-BG = (144, 201, 120)
 
+#background
+BG = (144, 201, 120)
 
 def draw_bg():
     screen.fill(BG)
@@ -53,48 +58,54 @@ def display_fps():
 # create player
 player = Solider("default", 200, 600, 3, 5, screen)
 
+#stop
+def stop():
+    pygame.quit()
+    sys.exit()
+
+
+#input
+user_text = ''
+
+
 # run
-while True:
-    clock.tick(fps)
-    if authorizat:
-        draw_bg()
-        player.update_animation()
-        player.draw()
-        display_fps()
-        if moving_left or moving_right:
-            player.update_action(1)  # run
+if __name__ == '__main__':
+    while True:
+        if authorizat:
+            draw_bg()
+            player.update_animation()
+            player.draw()
+            display_fps()
+            if moving_left or moving_right:
+                player.update_action(1)  # run
+            else:
+                player.update_action(0)  # stay
+
+            player.move(moving_left, moving_right)
+            for event in pygame.event.get():
+                # quit game
+                if event.type == pygame.QUIT:
+                    stop()
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_a:
+                        moving_left = True
+                    elif event.key == pygame.K_d:
+                        moving_right = True
+                elif event.type == pygame.KEYUP:
+                    if event.key == pygame.K_a:
+                        moving_left = False
+                    elif event.key == pygame.K_d:
+                        moving_right = False
+            pygame.display.update()  # update
         else:
-            player.update_action(0)  # stay
-
-        player.move(moving_left, moving_right)
-        for event in pygame.event.get():
-            # quit game
-            if event.type == pygame.QUIT:
-                break
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_a:
-                    moving_left = True
-                elif event.key == pygame.K_d:
-                    moving_right = True
-            elif event.type == pygame.KEYUP:
-                if event.key == pygame.K_a:
-                    moving_left = False
-                elif event.key == pygame.K_d:
-                    moving_right = False
-        pygame.display.update()  # update
-    else:
-        user_text = ''
-        screen.fill(BG)
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                break
-            elif event.type == pygame.KEYDOWN:
-                if event.type == pygame.K_BACKSPACE:
-                    user_text = user_text[:-1]
-                else:
-                    user_text += event.unicode
-
-
-
-pygame.quit()
-sys.exit()
+            draw_bg()
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    stop()
+                elif event.type == pygame.KEYDOWN:
+                    if event.type == pygame.K_BACKSPACE:
+                        user_text = user_text[:-1]
+                    else:
+                        user_text += event.unicode
+            
+        clock.tick(fps)
