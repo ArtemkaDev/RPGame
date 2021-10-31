@@ -1,6 +1,8 @@
 from modules.player import Solider
 from modules.jsons import jsons
+from threading import Thread
 from pygame import Color
+from time import sleep
 import pygame
 import json
 import sys
@@ -47,7 +49,7 @@ def draw_bg():
     screen.fill(BG)
     p1 = (300, 1920)
     p2 = (0,1920)
-    pygame.draw.line(screen, Color("red"), p1, p2, width=3)
+    #pygame.draw.line(screen, Color("red"), p1, p2, width=3)
 
 
 # stats of game
@@ -74,58 +76,49 @@ user_text = ''
 
 
 # run
-
-def main():
-    global moving_left
-    global moving_right
-    while True:
-        draw_bg()
-        player.update_animation()
-        player.draw()
-        display_fps()
-        if player.alive:
-            if moving_left or moving_right:
-                player.update_action(1)  # run
-            else:
-                player.update_action(0)  # stay
-
-        player.move(moving_left, moving_right)
-        for event in pygame.event.get():
-            # quit game
-            if event.type == pygame.QUIT:
-                stop()
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_a:
-                    moving_left = True
-                elif event.key == pygame.K_d:
-                    moving_right = True
-                elif event.key == pygame.K_w and player.alive:
-                    player.jump = True
-            elif event.type == pygame.KEYUP:
-                if event.key == pygame.K_a:
-                    moving_left = False
-                elif event.key == pygame.K_d:
-                    moving_right = False
-                elif event.key == pygame.K_w:
-                    player.jump = False
-        pygame.display.update()  # update
-        clock.tick(fps)
-
-def authori():
-    while True:
-        screen.fill(BG)
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                stop()
-            elif event.type == pygame.KEYDOWN:
-                if event.type == pygame.K_BACKSPACE:
-                    user_text = user_text[:-1]
-                else:
-                    user_text += event.unicode
-        clock.tick(fps)
-
 if __name__ == '__main__':
-    if authorizat:
-        main()
-    else:
-        authori()
+    while True:
+        if authorizat:
+            while True:
+                draw_bg()
+                player.update_animation()
+                player.draw()
+                display_fps()
+                pygame.display.update()  # update
+                if player.alive:
+                    if moving_left or moving_right:
+                        player.update_action(1)  # run
+                    else:
+                        player.update_action(0)  # stay
+                player.move(moving_left, moving_right)
+                for event in pygame.event.get():
+                    # quit game
+                    if event.type == pygame.QUIT:
+                        stop()
+                    elif event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_a:
+                            moving_left = True
+                        elif event.key == pygame.K_d:
+                            moving_right = True
+                        elif event.key == pygame.K_SPACE and player.alive:
+                            player.jump = True
+                    elif event.type == pygame.KEYUP:
+                        if event.key == pygame.K_a:
+                            moving_left = False
+                        elif event.key == pygame.K_d:
+                            moving_right = False
+                        elif event.key == pygame.K_SPACE:
+                            player.jump = False
+                clock.tick(fps)
+        else:
+            while True:
+                screen.fill(BG)
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        stop()
+                    elif event.type == pygame.KEYDOWN:
+                        if event.type == pygame.K_BACKSPACE:
+                            user_text = user_text[:-1]
+                        else:
+                            user_text += event.unicode
+                clock.tick(fps)
