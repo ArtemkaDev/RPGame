@@ -9,7 +9,7 @@ name = f"{appdata}\ProjectRedAdventure"
 file_json = {
     "screen": {
         "mode": 1,
-        "width": 1,
+        "width": None,
         "height": None
     },
     "fps": 60

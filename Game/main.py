@@ -1,5 +1,6 @@
 from modules.player import Solider
 from modules.jsons import jsons
+from pygame import Color
 import pygame
 import json
 import sys
@@ -41,11 +42,12 @@ fps = config_json['fps']
 
 #background
 BG = (144, 201, 120)
-RED = (255, 0, 0)
 
 def draw_bg():
     screen.fill(BG)
-    pygame.draw.line(screen, RED (0, 300), (screen, 300))
+    p1 = (300, 1920)
+    p2 = (0,1920)
+    pygame.draw.line(screen, Color("red"), p1, p2, width=3)
 
 
 # stats of game
@@ -111,7 +113,7 @@ def main():
 
 def authori():
     while True:
-        draw_bg()
+        screen.fill(BG)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 stop()
