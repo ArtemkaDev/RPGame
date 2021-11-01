@@ -49,7 +49,7 @@ def draw_bg():
     screen.fill(BG)
     p1 = (300, 1920)
     p2 = (0,1920)
-    #pygame.draw.line(screen, Color("red"), p1, p2, width=3)
+    # pygame.draw.line(screen, Color("red"), p1, p2, width=3)
 
 
 # stats of game
@@ -76,39 +76,57 @@ user_text = ''
 
 
 # run
+stop_run: bool = False
+
+def events():
+    global moving_left
+    global moving_right
+    global stop_run
+    while True:
+        sleep(0.02)
+        if player.alive:
+            if moving_left or moving_right:
+                player.update_action(1)  # run
+            else:
+                player.update_action(0)  # stay
+        player.move(moving_left, moving_right)
+        for event_reject in pygame.event.get():
+            # quit game
+            if event_reject.type == pygame.QUIT:
+                stop_run = True
+                break
+            elif event_reject.type == pygame.KEYDOWN:
+                if event_reject.key == pygame.K_a:
+                    moving_left = True
+                elif event_reject.key == pygame.K_d:
+                    moving_right = True
+                elif event_reject.key == pygame.K_SPACE and player.alive:
+                    player.jump = True
+            elif event_reject.type == pygame.KEYUP:
+                if event_reject.key == pygame.K_a:
+                    moving_left = False
+                elif event_reject.key == pygame.K_d:
+                    moving_right = False
+                elif event_reject.key == pygame.K_SPACE:
+                    player.jump = False
+
+event_theard = Thread(target=events)
+
 if __name__ == '__main__':
     while True:
-        if authorizat:
+        if stop_run == True:
+            stop()
+            break
+        elif authorizat:
+            event_theard.start()
             while True:
                 draw_bg()
                 player.update_animation()
                 player.draw()
                 display_fps()
                 pygame.display.update()  # update
-                if player.alive:
-                    if moving_left or moving_right:
-                        player.update_action(1)  # run
-                    else:
-                        player.update_action(0)  # stay
-                player.move(moving_left, moving_right)
-                for event in pygame.event.get():
-                    # quit game
-                    if event.type == pygame.QUIT:
-                        stop()
-                    elif event.type == pygame.KEYDOWN:
-                        if event.key == pygame.K_a:
-                            moving_left = True
-                        elif event.key == pygame.K_d:
-                            moving_right = True
-                        elif event.key == pygame.K_SPACE and player.alive:
-                            player.jump = True
-                    elif event.type == pygame.KEYUP:
-                        if event.key == pygame.K_a:
-                            moving_left = False
-                        elif event.key == pygame.K_d:
-                            moving_right = False
-                        elif event.key == pygame.K_SPACE:
-                            player.jump = False
+                if stop_run == True:
+                    break
                 clock.tick(fps)
         else:
             while True:
