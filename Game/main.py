@@ -3,14 +3,13 @@ from modules.jsons import jsons
 from threading import Thread
 from pygame import Color
 from time import sleep
+import threading
 import pygame
 import json
 import sys
 import os
 
-
 pygame.font.init()
-
 
 # value
 in_game = False
@@ -21,14 +20,11 @@ moving_left = False
 moving_right = False
 base_font = pygame.font.SysFont("Futura", 48)
 
-
-
 # json
 jsons().check()
 
 with open(os.path.expanduser(f"{os.getenv('APPDATA')}\ProjectRedAdventure\config.json"), "r") as json_file:
     config_json = json.load(json_file)
-
 
 # stats of screen
 if config_json['screen']['mode'] == 1:
@@ -40,15 +36,17 @@ else:
 
 clock = pygame.time.Clock()
 fps = config_json['fps']
+if fps < 60:
+    fps_event = fps//2
 
-
-#background
+# background
 BG = (144, 201, 120)
+
 
 def draw_bg():
     screen.fill(BG)
     p1 = (300, 1920)
-    p2 = (0,1920)
+    p2 = (0, 1920)
     # pygame.draw.line(screen, Color("red"), p1, p2, width=3)
 
 
@@ -65,78 +63,79 @@ def display_fps():
 # create player
 player = Solider("default", 200, 600, 3, 5, screen)
 
-#stop
+
+# stop
 def stop():
     pygame.quit()
     sys.exit()
 
 
-#input
+# input
 user_text = ''
-
 
 # run
 stop_run: bool = False
 
-def events():
+
+def events(event_reject):
     global moving_left
     global moving_right
     global stop_run
-    while True:
-        sleep(0.02)
-        if player.alive:
-            if moving_left or moving_right:
-                player.update_action(1)  # run
-            else:
-                player.update_action(0)  # stay
-        player.move(moving_left, moving_right)
-        for event_reject in pygame.event.get():
-            # quit game
-            if event_reject.type == pygame.QUIT:
-                stop_run = True
-                break
-            elif event_reject.type == pygame.KEYDOWN:
-                if event_reject.key == pygame.K_a:
-                    moving_left = True
-                elif event_reject.key == pygame.K_d:
-                    moving_right = True
-                elif event_reject.key == pygame.K_SPACE and player.alive:
-                    player.jump = True
-            elif event_reject.type == pygame.KEYUP:
-                if event_reject.key == pygame.K_a:
-                    moving_left = False
-                elif event_reject.key == pygame.K_d:
-                    moving_right = False
-                elif event_reject.key == pygame.K_SPACE:
-                    player.jump = False
+    clock.tick(60)
+    if player.alive:
+        if moving_left or moving_right:
+            player.update_action(1)  # run
+        else:
+            player.update_action(0)  # stay
+    player.move(moving_left, moving_right)
+    # quit game
+    if event_reject.type == pygame.QUIT:
+        stop_run = True
+    elif event_reject.type == pygame.KEYDOWN:
+        if event_reject.key == pygame.K_a:
+            moving_left = True
+        elif event_reject.key == pygame.K_d:
+            moving_right = True
+        elif event_reject.key == pygame.K_SPACE and player.alive:
+            player.jump = True
+    elif event_reject.type == pygame.KEYUP:
+        if event_reject.key == pygame.K_a:
+            moving_left = False
+        elif event_reject.key == pygame.K_d:
+            moving_right = False
+        elif event_reject.key == pygame.K_SPACE:
+            player.jump = False
 
-event_theard = Thread(target=events)
 
 if __name__ == '__main__':
     while True:
-        if stop_run == True:
+        if stop_run:
             stop()
             break
         elif authorizat:
-            event_theard.start()
             while True:
                 draw_bg()
                 player.update_animation()
                 player.draw()
                 display_fps()
                 pygame.display.update()  # update
-                if stop_run == True:
+                for event_reject in pygame.event.get():
+                    Thread(target=events, args=(event_reject,)).start()
+                if stop_run:
                     break
                 clock.tick(fps)
+            continue
         else:
             while True:
                 screen.fill(BG)
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         stop()
+                        break
                     elif event.type == pygame.KEYDOWN:
                         if event.type == pygame.K_BACKSPACE:
                             user_text = user_text[:-1]
                         else:
                             user_text += event.unicode
                 clock.tick(fps)
+            continue
