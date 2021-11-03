@@ -3,7 +3,6 @@ from modules.jsons import jsons
 from pygame import Color
 import pygame
 import json
-import time
 import sys
 import os
 
@@ -52,8 +51,7 @@ pygame.display.set_caption('ProjectRed Adventures')  # game name
 
 # fps
 def display_fps():
-    text_to_show = base_font.render(str(int(clock.get_fps())), 0, pygame.Color("white"))
-    screen.blit(text_to_show, (10, 10))
+    screen.blit(base_font.render(str(int(clock.get_fps())), 0, pygame.Color("white")), (10, 10))
 
 
 # create player
