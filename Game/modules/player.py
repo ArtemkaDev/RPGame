@@ -1,12 +1,15 @@
 import pygame
+import time
 
 #global values
 gravity = 0.75
-
+prev_time = time.time()
 
 class Solider(pygame.sprite.Sprite):
     def __init__(self, char_type, x, y, scale, speed, screen):
         pygame.sprite.Sprite.__init__(self)
+        self.prev_time = prev_time
+        self.dt = 0
         self.alive = True
         self.scale = scale
         self.speed = speed
@@ -37,6 +40,9 @@ class Solider(pygame.sprite.Sprite):
         self.screen = screen
 
     def draw(self):
+        self.dt = time.time() - self.prev_time
+        self.dt *= 60
+        self.prev_time = time.time()
         self.screen.blit(pygame.transform.flip(self.image, self.flip, False), self.rect)
 
 
@@ -45,17 +51,17 @@ class Solider(pygame.sprite.Sprite):
         dy = 0
         if moving_left:
             self.flip = True
-            dx = -self.speed
+            dx = -self.speed * self.dt
         if moving_right:
             self.flip = False
-            dx = self.speed
+            dx = self.speed * self.dt
         if self.jump == True:
             self.vel_y = 0
             self.jump = False
         '''self.vel_y += gravity
         if self.vel_y > 10:
             self.vel_y
-        dy += self.vel_y'''
+        dy += self.vel_y*self.dt'''
 
         self.rect.x += dx
         self.rect.y += dy

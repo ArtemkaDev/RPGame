@@ -1,11 +1,9 @@
 from modules.player import Solider
 from modules.jsons import jsons
-from threading import Thread
 from pygame import Color
-from time import sleep
-import threading
 import pygame
 import json
+import time
 import sys
 import os
 
@@ -36,8 +34,6 @@ else:
 
 clock = pygame.time.Clock()
 fps = config_json['fps']
-if fps < 60:
-    fps_event = fps//2
 
 # background
 BG = (144, 201, 120)
@@ -61,7 +57,7 @@ def display_fps():
 
 
 # create player
-player = Solider("default", 200, 600, 3, 5, screen)
+player = Solider("default", 200, 600, 3, 10, screen)
 
 
 # stop
@@ -77,35 +73,6 @@ user_text = ''
 stop_run: bool = False
 
 
-def events(event_reject):
-    global moving_left
-    global moving_right
-    global stop_run
-    clock.tick(60)
-    if player.alive:
-        if moving_left or moving_right:
-            player.update_action(1)  # run
-        else:
-            player.update_action(0)  # stay
-    player.move(moving_left, moving_right)
-    # quit game
-    if event_reject.type == pygame.QUIT:
-        stop_run = True
-    elif event_reject.type == pygame.KEYDOWN:
-        if event_reject.key == pygame.K_a:
-            moving_left = True
-        elif event_reject.key == pygame.K_d:
-            moving_right = True
-        elif event_reject.key == pygame.K_SPACE and player.alive:
-            player.jump = True
-    elif event_reject.type == pygame.KEYUP:
-        if event_reject.key == pygame.K_a:
-            moving_left = False
-        elif event_reject.key == pygame.K_d:
-            moving_right = False
-        elif event_reject.key == pygame.K_SPACE:
-            player.jump = False
-
 
 if __name__ == '__main__':
     while True:
@@ -114,13 +81,39 @@ if __name__ == '__main__':
             break
         elif authorizat:
             while True:
+                #draw
                 draw_bg()
                 player.update_animation()
                 player.draw()
                 display_fps()
                 pygame.display.update()  # update
+                #event
+                if player.alive:
+                    if moving_left or moving_right:
+                        player.update_action(1)  # run
+                    else:
+                        player.update_action(0)  # stay
+                # quit game
                 for event_reject in pygame.event.get():
-                    Thread(target=events, args=(event_reject,)).start()
+                    if event_reject.type == pygame.QUIT:
+                        stop_run = True
+                    elif event_reject.type == pygame.KEYDOWN:
+                        if event_reject.key == pygame.K_a:
+                            moving_left = True
+                        elif event_reject.key == pygame.K_ESCAPE:
+                            stop_run = True
+                        elif event_reject.key == pygame.K_d:
+                            moving_right = True
+                        elif event_reject.key == pygame.K_SPACE and player.alive:
+                            player.jump = True
+                    elif event_reject.type == pygame.KEYUP:
+                        if event_reject.key == pygame.K_a:
+                            moving_left = False
+                        elif event_reject.key == pygame.K_d:
+                            moving_right = False
+                        elif event_reject.key == pygame.K_SPACE:
+                            player.jump = False
+                player.move(moving_left, moving_right)
                 if stop_run:
                     break
                 clock.tick(fps)
