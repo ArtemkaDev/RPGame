@@ -1,6 +1,6 @@
 from modules.player import Solider
 from modules.jsons import jsons
-from pygame import Color
+from launcher import launcher
 import pygame
 import json
 import sys
@@ -117,16 +117,4 @@ if __name__ == '__main__':
                 clock.tick(fps)
             continue
         else:
-            while True:
-                screen.fill(BG)
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        stop()
-                        break
-                    elif event.type == pygame.KEYDOWN:
-                        if event.type == pygame.K_BACKSPACE:
-                            user_text = user_text[:-1]
-                        else:
-                            user_text += event.unicode
-                clock.tick(fps)
-            continue
+            launcher().mainloop()
