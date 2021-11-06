@@ -1,14 +1,21 @@
+import importlib
 import os
 
+
 class mod():
-    def __init__(self):
-        pass
+    def __init__(self, test):
+        self.test = test
+        self.mods_info = []
 
     def start(self):
-        if os.path.exists("./mods") is False:
-            os.mkdir("mods")
+        if not self.test:
+            if os.path.exists("./mods") is False:
+                os.mkdir("mods")
 
-    '''def load(self):
-        try:
-            for filename in os.listdir("./cogs"):
-                if filename.endswith(".py"):'''
+    def load(self):
+        if not self.test:
+            for filename in os.listdir("./mods"):
+                if filename.endswith(".py"):
+                    importlib.import_module(f".{filename[:-3]}", 'mods')
+                    self.mods_info.append(f"{filename[:-3]}")
+                    print(self.mods_info)

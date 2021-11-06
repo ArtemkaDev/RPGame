@@ -47,8 +47,9 @@ def draw_bg():
 
 
 #mod
-modloader.mod().start()
-
+test_mod = True
+modloader.mod(test_mod).start()
+modloader.mod(test_mod).load()
 
 # stats of game
 pygame.display.set_caption('ProjectRed Adventures')  # game name
