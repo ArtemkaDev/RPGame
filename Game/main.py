@@ -10,6 +10,7 @@ import os
 pygame.init()
 
 # value
+test_mod = True
 in_game = False
 # сделать то что снизу на False когда сделаешь авторизацию
 authorizat = True
@@ -18,50 +19,42 @@ moving_left = False
 moving_right = False
 base_font = pygame.font.SysFont("Futura", 48)
 
-# json
-jsons().check()
+def init():
+    global config_json
+    global screen
+    global clock
+    global fps
+    global player
+    jsons().check()
 
-with open(os.path.expanduser(f"{os.getenv('APPDATA')}\ProjectRedAdventure\config.json"), "r") as json_file:
-    config_json = json.load(json_file)
+    with open(os.path.expanduser(f"{os.getenv('APPDATA')}\ProjectRedAdventure\config.json"), "r") as json_file:
+        config_json = json.load(json_file)
 
-# stats of screen
-if config_json['screen']['mode'] == 1:
-    screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN | pygame.DOUBLEBUF, 16)
-elif config_json['screen']['mode'] == 2:
-    screen = pygame.display.set_mode((config_json['screen']['width'], config_json['screen']['height']), pygame.RESIZABLE)
-else:
-    print("Error")
+    if config_json['screen']['mode'] == 1:
+        screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN | pygame.DOUBLEBUF, 16)
+    elif config_json['screen']['mode'] == 2:
+        screen = pygame.display.set_mode((config_json['screen']['width'], config_json['screen']['height']), pygame.RESIZABLE)
+    else:
+        print("Error")
 
-clock = pygame.time.Clock()
-fps = config_json['fps']
+    pygame.display.set_caption('ProjectRed Adventures')
 
-# background
-BG = (144, 201, 120)
+    clock = pygame.time.Clock()
+    fps = config_json['fps']
+    player = Solider("default", 200, 600, 3, 10, screen)
 
 
 def draw_bg():
-    screen.fill(BG)
+    screen.fill((144, 201, 120))
     p1 = (300, 1920)
     p2 = (0, 1920)
     # pygame.draw.line(screen, Color("red"), p1, p2, width=3)
 
 
 #mod
-test_mod = True
 modloader.mod(test_mod).start()
 modloader.mod(test_mod).load()
 
-# stats of game
-pygame.display.set_caption('ProjectRed Adventures')  # game name
-
-
-# fps
-def display_fps():
-    screen.blit(base_font.render(str(int(clock.get_fps())), 0, pygame.Color("white")), (10, 10))
-
-
-# create player
-player = Solider("default", 200, 600, 3, 10, screen)
 
 
 # stop
@@ -84,12 +77,13 @@ if __name__ == '__main__':
             stop()
             break
         elif authorizat:
+            init()
             while True:
                 #draw
                 draw_bg()
                 player.update_animation()
                 player.draw()
-                display_fps()
+                screen.blit(base_font.render(str(int(clock.get_fps())), 0, pygame.Color("white")), (10, 10))
                 pygame.display.update()  # update
                 #event
                 if player.alive:
@@ -123,4 +117,4 @@ if __name__ == '__main__':
                 clock.tick(fps)
             continue
         else:
-            launcher().mainloop()
+            launcher()
