@@ -1,12 +1,13 @@
 from modules.player import Solider
 from modules.jsons import jsons
 from launcher import launcher
+import modloader
 import pygame
 import json
 import sys
 import os
 
-pygame.font.init()
+pygame.init()
 
 # value
 in_game = False
@@ -27,7 +28,7 @@ with open(os.path.expanduser(f"{os.getenv('APPDATA')}\ProjectRedAdventure\config
 if config_json['screen']['mode'] == 1:
     screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN | pygame.DOUBLEBUF, 16)
 elif config_json['screen']['mode'] == 2:
-    screen = pygame.display.set_mode((config_json['screen']['width'], config_json['screen']['height']))
+    screen = pygame.display.set_mode((config_json['screen']['width'], config_json['screen']['height']), pygame.RESIZABLE)
 else:
     print("Error")
 
@@ -43,6 +44,10 @@ def draw_bg():
     p1 = (300, 1920)
     p2 = (0, 1920)
     # pygame.draw.line(screen, Color("red"), p1, p2, width=3)
+
+
+#mod
+modloader.mod().start()
 
 
 # stats of game
