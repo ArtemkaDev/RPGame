@@ -3,6 +3,7 @@ from modules.jsons import jsons
 from launcher import launcher
 import modloader
 import pygame
+import time
 import json
 import sys
 import os
@@ -25,10 +26,13 @@ def stop():
 
 # launcher
 def launcher_start():
+    global authorizat
     launcher().draw()
     auth = launcher().auth
     if not auth:
         stop()
+    elif auth:
+        authorizat = True
 
 
 launcher_start()
@@ -40,14 +44,15 @@ base_font = pygame.font.SysFont("Futura", 48)
 # json
 jsons().check()
 
-with open(os.path.expanduser(f"{os.getenv('APPDATA')}\ProjectRedAdventure\config.json"), "r") as json_file:
+with open(os.path.expanduser(f"{os.getenv('APPDATA')}/ProjectRedAdventure/config.json"), "r") as json_file:
     config_json = json.load(json_file)
 
 # screen stats
 if config_json['screen']['mode'] == 1:
     screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN | pygame.DOUBLEBUF, 16)
 elif config_json['screen']['mode'] == 2:
-    screen = pygame.display.set_mode((config_json['screen']['width'], config_json['screen']['height']), pygame.RESIZABLE)
+    screen = pygame.display.set_mode((config_json['screen']['width'], config_json['screen']['height']),
+                                     pygame.RESIZABLE)
 else:
     print("Error")
 
@@ -85,7 +90,7 @@ if __name__ == '__main__':
         draw_bg()
         player.update_animation()
         player.draw()
-        screen.blit(base_font.render(str(int(clock.get_fps())), 0, pygame.Color("white")), (10, 10))
+        screen.blit(base_font.render(str(int(clock.get_fps())), True, pygame.Color("white")), (10, 10))
         pygame.display.update()  # update
         # event
         if player.alive:

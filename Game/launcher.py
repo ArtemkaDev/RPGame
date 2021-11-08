@@ -1,3 +1,4 @@
+import sys
 from tkinter import *
 import webbrowser
 
@@ -24,11 +25,11 @@ class launcher(Tk):
         self.entry1_bg = self.canvas.create_image(418.5, 203.5, image=self.entry1_img)
         self.entry1 = Entry(bd=0, textvariable=self.password, bg="#c4c4c4", highlightthickness=0)
         self.entry1.place(x=340.0, y=191, width=157.0, height=23)
-        self.auth = False
         self.resizable(False, False)
+        self.auth = False
 
     def btn_clicked(self):
-        print(self.password.get(), self.name.get())
+        self.auth = True
 
     def draw(self):
         self.mainloop()
