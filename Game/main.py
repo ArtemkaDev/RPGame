@@ -77,8 +77,6 @@ modloader.mod(test_mod).load()
 user_text = ''
 
 # run
-stop_run: bool = False
-
 if __name__ == '__main__':
     if not authorizat:
         stop()
@@ -98,14 +96,12 @@ if __name__ == '__main__':
         # quit game
         for event_reject in pygame.event.get():
             if event_reject.type == pygame.QUIT:
-                stop_run = True
-                break
+                stop()
             elif event_reject.type == pygame.KEYDOWN:
                 if event_reject.key == pygame.K_a:
                     moving_left = True
                 elif event_reject.key == pygame.K_ESCAPE:
-                    stop_run = True
-                    break
+                    stop()
                 elif event_reject.key == pygame.K_d:
                     moving_right = True
                 elif event_reject.key == pygame.K_SPACE and player.alive:
