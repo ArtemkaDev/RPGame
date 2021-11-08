@@ -25,7 +25,10 @@ def stop():
 
 # launcher
 def launcher_start():
-    launcher()
+    launcher().draw()
+    auth = launcher().auth
+    if not auth:
+        stop()
 
 
 launcher_start()
@@ -44,8 +47,7 @@ with open(os.path.expanduser(f"{os.getenv('APPDATA')}\ProjectRedAdventure\config
 if config_json['screen']['mode'] == 1:
     screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN | pygame.DOUBLEBUF, 16)
 elif config_json['screen']['mode'] == 2:
-    screen = pygame.display.set_mode((config_json['screen']['width'], config_json['screen']['height']),
-                                     pygame.RESIZABLE)
+    screen = pygame.display.set_mode((config_json['screen']['width'], config_json['screen']['height']), pygame.RESIZABLE)
 else:
     print("Error")
 

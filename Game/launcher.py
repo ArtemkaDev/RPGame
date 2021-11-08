@@ -1,5 +1,5 @@
 from tkinter import *
-
+import webbrowser
 
 class launcher(Tk):
     def __init__(self):
@@ -7,8 +7,8 @@ class launcher(Tk):
         self.geometry('600x350')
         self.configure(bg="#ffffff")
         self.title('ProjectRed Adventure Launcher')
-        self.name = StringVar(self).get()
-        self.password = StringVar(self).get()
+        self.name = StringVar(self)
+        self.password = StringVar(self)
         self.canvas = Canvas(self, bg="#ffffff", height=350, width=600, bd=0, highlightthickness=0, relief="ridge")
         self.canvas.place(x=0, y=0)
         self.background_img = PhotoImage(file="./img/Launcher/enter/background.png")
@@ -24,8 +24,14 @@ class launcher(Tk):
         self.entry1_bg = self.canvas.create_image(418.5, 203.5, image=self.entry1_img)
         self.entry1 = Entry(bd=0, textvariable=self.password, bg="#c4c4c4", highlightthickness=0)
         self.entry1.place(x=340.0, y=191, width=157.0, height=23)
+        self.auth = False
         self.resizable(False, False)
-        self.mainloop()
 
     def btn_clicked(self):
-        print("lol", self.name)
+        print(self.password.get(), self.name.get())
+
+    def draw(self):
+        self.mainloop()
+
+    def openreg(self):
+        webbrowser.open("https://projectredcite.herokuapp.com/reg")
