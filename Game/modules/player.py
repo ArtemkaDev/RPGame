@@ -3,12 +3,12 @@ import time
 
 #global values
 gravity = 0.75
-prev_time = time.time()
+
 
 class Solider(pygame.sprite.Sprite):
     def __init__(self, char_type, x, y, scale, speed, screen):
         pygame.sprite.Sprite.__init__(self)
-        self.prev_time = prev_time
+        self.prev_time = time.time()
         self.dt = 0
         self.alive = True
         self.scale = scale
@@ -61,7 +61,7 @@ class Solider(pygame.sprite.Sprite):
         '''self.vel_y += gravity
         if self.vel_y > 10:
             self.vel_y
-        dy += self.vel_y'''
+        dy += self.vel_y * self.dt'''
 
         self.rect.x += dx
         self.rect.y += dy
