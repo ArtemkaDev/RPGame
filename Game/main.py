@@ -28,11 +28,17 @@ def stop():
 def launcher_start():
     global authorizat
     launcher().draw()
-    auth = launcher().auth
-    if not auth:
-        stop()
-    elif auth:
-        authorizat = True
+    while True:
+        if not launcher().inlauncher:
+            print("lol")
+            auth = launcher().auth
+            print(auth)
+            if not auth:
+                stop()
+            elif auth:
+                print("kek")
+                launcher().stop()
+                authorizat = True
 
 
 launcher_start()

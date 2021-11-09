@@ -1,4 +1,3 @@
-import sys
 from tkinter import *
 import webbrowser
 
@@ -27,12 +26,19 @@ class launcher(Tk):
         self.entry1.place(x=340.0, y=191, width=157.0, height=23)
         self.resizable(False, False)
         self.auth = False
+        self.inlauncher = False
 
     def btn_clicked(self):
         self.auth = True
+        print(self.auth, self.name.get(), self.password.get())
+        self.inlauncher = False
 
     def draw(self):
         self.mainloop()
+        self.inlauncher = True
 
     def openreg(self):
         webbrowser.open("https://projectredcite.herokuapp.com/reg")
+
+    def stop(self):
+        self.stop()
