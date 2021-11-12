@@ -12,7 +12,7 @@ import os
 test_mod = True
 in_game = False
 # сделать то что снизу на False когда сделаешь авторизацию
-authorizat = False
+authorizat = True
 # сверху
 moving_left = False
 moving_right = False
@@ -41,7 +41,7 @@ def launcher_start():
                 authorizat = True
 
 
-launcher_start()
+#launcher_start()
 
 # game
 pygame.init()
@@ -57,8 +57,7 @@ with open(os.path.expanduser(f"{os.getenv('APPDATA')}/ProjectRedAdventure/config
 if config_json['screen']['mode'] == 1:
     screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN | pygame.DOUBLEBUF, 16)
 elif config_json['screen']['mode'] == 2:
-    screen = pygame.display.set_mode((config_json['screen']['width'], config_json['screen']['height']),
-                                     pygame.RESIZABLE)
+    screen = pygame.display.set_mode((config_json['screen']['width'], config_json['screen']['height']), pygame.RESIZABLE)
 else:
     print("Error")
 
@@ -86,6 +85,7 @@ modloader.mod(test_mod).load()
 
 # input
 user_text = ''
+
 
 # run
 if __name__ == '__main__':
