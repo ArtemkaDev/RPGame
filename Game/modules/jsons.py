@@ -1,11 +1,7 @@
 import json
 import os
 
-#import pygame.image
-
 player = 'img/Layer1.png'
-appdata = os.getenv('APPDATA')
-name = f"{appdata}\ProjectRedAdventure"
 file_json = {
     "screen": {
         "mode": 1,
@@ -17,8 +13,8 @@ file_json = {
 
 class jsons(object):
     def __init__(self):
-        self.appdata = appdata
-        self.name = name
+        self.appdata = os.getenv('APPDATA')
+        self.name = f"{self.appdata}\ProjectRedAdventure"
         self.file_json = file_json
     def check(self):
         if os.path.exists(self.name) is False:

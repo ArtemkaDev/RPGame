@@ -18,4 +18,3 @@ class mod():
                 if filename.endswith(".py"):
                     importlib.import_module(f".{filename[:-3]}", 'mods')
                     self.mods_info.append(f"{filename[:-3]}")
-                    print(self.mods_info)
