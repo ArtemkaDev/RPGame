@@ -1,9 +1,7 @@
 from modules.player import Solider
 from modules.jsons import jsons
-from launcher import launcher
 import modloader
 import pygame
-import time
 import json
 import sys
 import os
@@ -11,9 +9,6 @@ import os
 # value
 test_mod = True
 in_game = False
-# сделать то что снизу на False когда сделаешь авторизацию
-authorizat = True
-# сверху
 moving_left = False
 moving_right = False
 
@@ -23,25 +18,6 @@ def stop():
     pygame.quit()
     sys.exit()
 
-
-# launcher
-def launcher_start():
-    global authorizat
-    launcher().draw()
-    while True:
-        if not launcher().inlauncher:
-            print("lol")
-            auth = launcher().auth
-            print(auth)
-            if not auth:
-                stop()
-            elif auth:
-                print("kek")
-                launcher().stop()
-                authorizat = True
-
-
-#launcher_start()
 
 # game
 pygame.init()
@@ -89,8 +65,6 @@ user_text = ''
 
 # run
 if __name__ == '__main__':
-    if not authorizat:
-        stop()
     while True:
         # draw
         draw_bg()
