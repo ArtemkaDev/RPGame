@@ -32,8 +32,13 @@ with open(os.path.expanduser(f"{os.getenv('APPDATA')}/ProjectRedAdventure/config
 # screen stats
 if config_json['screen']['mode'] == 1:
     screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN | pygame.DOUBLEBUF, 16)
+    proc_x = pygame.display.get_surface().get_size()[0] / 300
+    proc_y = pygame.display.get_surface().get_size()[1] / 200
+    print(proc_x, proc_y)
 elif config_json['screen']['mode'] == 2:
-    screen = pygame.display.set_mode((config_json['screen']['width'], config_json['screen']['height']), pygame.RESIZABLE)
+    screen = pygame.display.set_mode((config_json['screen']['width'], config_json['screen']['height']))
+    proc_x = pygame.display.get_surface().get_size()[0] / 300
+    proc_y = pygame.display.get_surface().get_size()[1] / 200
 else:
     print("Error")
 
@@ -44,15 +49,13 @@ clock = pygame.time.Clock()
 fps = config_json['fps']
 
 # create player
-player = Solider("default", 200, 600, 3, 10, screen)
+player = Solider("default", 30 * proc_x, 300 * proc_y, 3, 10, screen)
 
 
 # background
 def draw_bg():
     screen.fill((144, 201, 120))
-    p1 = (300, 1920)
-    p2 = (0, 1920)
-    # pygame.draw.line(screen, Color("red"), p1, p2, width=3)
+    pygame.draw.line(screen, pygame.Color("red"), (10 * proc_x, 180 * proc_y), (300 * proc_x, 180 * proc_y), width=3)
 
 
 # mod
@@ -61,7 +64,6 @@ modloader.mod(test_mod).load()
 
 # input
 user_text = ''
-
 
 # run
 if __name__ == '__main__':

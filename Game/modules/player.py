@@ -58,10 +58,11 @@ class Solider(pygame.sprite.Sprite):
         if self.jump == True:
             self.vel_y = 0
             self.jump = False
-        '''self.vel_y += gravity
+        #gravity
+        self.vel_y += gravity
         if self.vel_y > 10:
             self.vel_y
-        dy += self.vel_y * self.dt'''
+        dy += self.vel_y * self.dt
 
         self.rect.x += dx
         self.rect.y += dy
