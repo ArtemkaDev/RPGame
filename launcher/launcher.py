@@ -1,44 +1,57 @@
 from tkinter import *
-import webbrowser
+import webbrowser, os
 
-class launcher(Tk):
-    def __init__(self):
-        super().__init__()
-        self.geometry('600x350')
-        self.configure(bg="#ffffff")
-        self.title('ProjectRed Adventure Launcher')
-        self.name = StringVar(self)
-        self.password = StringVar(self)
-        self.canvas = Canvas(self, bg="#ffffff", height=350, width=600, bd=0, highlightthickness=0, relief="ridge")
-        self.canvas.place(x=0, y=0)
-        self.background_img = PhotoImage(file="./img/Launcher/enter/background.png")
-        self.background = self.canvas.create_image(300.0, 175.0, image=self.background_img)
-        self.img0 = PhotoImage(file="./img/Launcher/enter/img0.png")
-        self.b0 = Button(image=self.img0, borderwidth=0, highlightthickness=0, command=self.btn_clicked, relief="flat")
-        self.b0.place(x=341, y=235, width=156, height=25)
-        self.entry0_img = PhotoImage(file="./img/Launcher/enter/img_textBox0.png")
-        self.entry0_bg = self.canvas.create_image(418.5, 139.5, image=self.entry0_img)
-        self.entry0 = Entry(bd=0, textvariable=self.name, bg="#c4c4c4", highlightthickness=0)
-        self.entry0.place(x=340.0, y=127, width=157.0, height=23)
-        self.entry1_img = PhotoImage(file="./img/Launcher/enter/img_textBox1.png")
-        self.entry1_bg = self.canvas.create_image(418.5, 203.5, image=self.entry1_img)
-        self.entry1 = Entry(bd=0, textvariable=self.password, bg="#c4c4c4", highlightthickness=0)
-        self.entry1.place(x=340.0, y=191, width=157.0, height=23)
-        self.resizable(False, False)
-        self.auth = False
-        self.inlauncher = False
 
-    def btn_clicked(self):
-        self.auth = True
-        print(self.auth, self.name.get(), self.password.get())
-        self.inlauncher = False
+auth = False
+window = Tk()
+name = StringVar()
+password = StringVar()
 
-    def draw(self):
-        self.mainloop()
-        self.inlauncher = True
 
-    def openreg(self):
-        webbrowser.open("https://projectredcite.herokuapp.com/reg")
+def btn_clicked():
+    global auth
+    while True:
+        if auth:
+            window.destroy()
+            os.startfile("./main.exe")
+            break
+        elif not auth:
+            auth = True
+            continue
 
-    def stop(self):
-        self.stop()
+
+def openreg():
+    webbrowser.open("https://projectredcite.herokuapp.com/reg")
+
+
+window.title('ProjectRed Adventure Launcher')
+window.geometry("600x350")
+window.configure(bg="#ffffff")
+canvas = Canvas(window, bg="#ffffff", height=350, width=600, bd=0, highlightthickness=0, relief="ridge")
+canvas.place(x=0, y=0)
+
+background_img = PhotoImage(file = f"./img/Launcher/enter/background.png")
+background = canvas.create_image(300.0, 175.0, image=background_img)
+
+img0 = PhotoImage(file = f"./img/Launcher/enter/img0.png")
+b0 = Button(image=img0, borderwidth=0, highlightthickness=0, command=openreg, relief="flat")
+b0.place(x=436, y=314, width=156, height=25)
+
+img1 = PhotoImage(file = f"./img/Launcher/enter/img1.png")
+b1 = Button(image=img1, borderwidth=0, highlightthickness=0, command=btn_clicked, relief="flat")
+b1.place(x=341, y=235, width=156, height=25)
+
+# entry 0
+entry0_img = PhotoImage(file=f"./img/Launcher/enter/img_textBox0.png")
+entry0_bg = canvas.create_image(418.5, 139.5, image=entry0_img)
+entry0 = Entry(bd=0, bg="#c4c4c4", highlightthickness=0, textvariable=name)
+entry0.place(x=340.0, y=127, width=157.0, height=23)
+
+# entry 1
+entry1_img = PhotoImage(file=f"./img/Launcher/enter/img_textBox1.png")
+entry1_bg = canvas.create_image(418.5, 203.5, image=entry1_img)
+entry1 = Entry(bd=0, bg="#c4c4c4", highlightthickness=0, textvariable=password)
+entry1.place(x=340.0, y=191, width=157.0, height=23)
+
+window.resizable(False, False)
+window.mainloop()
