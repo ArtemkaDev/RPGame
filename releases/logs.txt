@@ -1,0 +1,7 @@
+v0.0.1
+03.11.2021
+Game working!
+
+v0.0.2
+22.11.2021
+Game is better and we have launcher!
