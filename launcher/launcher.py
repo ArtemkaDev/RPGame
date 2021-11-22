@@ -13,7 +13,7 @@ def btn_clicked():
     while True:
         if auth:
             window.destroy()
-            os.startfile("./main.exe")
+            os.startfile(".\main.exe")
             break
         elif not auth:
             auth = True
