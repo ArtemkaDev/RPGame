@@ -1,5 +1,7 @@
 from modules.player import Solider
 from modules.jsons import jsons
+from tkinter import *
+import webbrowser
 import modloader
 import pygame
 import json
@@ -9,8 +11,56 @@ import os
 # value
 test_mod = True
 in_game = False
+auth = False
 moving_left = False
 moving_right = False
+
+# launcher
+tkinter = Tk()
+name = StringVar()
+password = StringVar()
+
+
+def btn_clicked():
+    global auth
+    auth = True
+    tkinter.destroy()
+
+def openwebreg():
+    webbrowser.open("https://projectredcite.herokuapp.com/reg")
+
+tkinter.title('ProjectRed Adventure Launcher')
+tkinter.geometry("600x350")
+tkinter.configure(bg="#ffffff")
+canvas = Canvas(tkinter, bg="#ffffff", height=350, width=600, bd=0, highlightthickness=0, relief="ridge")
+canvas.place(x=0, y=0)
+
+background_img = PhotoImage(file=f"./img/Launcher/enter/background.png")
+background = canvas.create_image(300.0, 175.0, image=background_img)
+
+img0 = PhotoImage(file=f"./img/Launcher/enter/img0.png")
+b0 = Button(image=img0, borderwidth=0, highlightthickness=0, command=openwebreg, relief="flat")
+b0.place(x=436, y=314, width=156, height=25)
+
+img1 = PhotoImage(file=f"./img/Launcher/enter/img1.png")
+b1 = Button(image=img1, borderwidth=0, highlightthickness=0, command=btn_clicked, relief="flat")
+b1.place(x=341, y=235, width=156, height=25)
+
+# entry 0
+entry0_img = PhotoImage(file=f"./img/Launcher/enter/img_textBox0.png")
+entry0_bg = canvas.create_image(418.5, 139.5, image=entry0_img)
+entry0 = Entry(bd=0, bg="#c4c4c4", highlightthickness=0, textvariable=name)
+entry0.place(x=340.0, y=127, width=157.0, height=23)
+
+# entry 1
+entry1_img = PhotoImage(file=f"./img/Launcher/enter/img_textBox1.png")
+entry1_bg = canvas.create_image(418.5, 203.5, image=entry1_img)
+entry1 = Entry(bd=0, bg="#c4c4c4", highlightthickness=0, textvariable=password)
+entry1.place(x=340.0, y=191, width=157.0, height=23)
+
+tkinter.resizable(False, False)
+tkinter.mainloop()
+# end
 
 
 # stop
@@ -30,12 +80,12 @@ with open(os.path.expanduser(f"{os.getenv('APPDATA')}/ProjectRedAdventure/config
     config_json = json.load(json_file)
 
 # screen stats
-if config_json['screen']['mode'] == 1:
+if config_json['screen']['mode'] == 1 and auth:
     screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN | pygame.DOUBLEBUF, 16)
     proc_x = pygame.display.get_surface().get_size()[0] / 300
     proc_y = pygame.display.get_surface().get_size()[1] / 200
     print(proc_x, proc_y)
-elif config_json['screen']['mode'] == 2:
+elif config_json['screen']['mode'] == 2 and auth:
     screen = pygame.display.set_mode((config_json['screen']['width'], config_json['screen']['height']))
     proc_x = pygame.display.get_surface().get_size()[0] / 300
     proc_y = pygame.display.get_surface().get_size()[1] / 200
@@ -67,6 +117,8 @@ user_text = ''
 
 # run
 if __name__ == '__main__':
+    if not auth:
+        stop()
     while True:
         # draw
         draw_bg()
