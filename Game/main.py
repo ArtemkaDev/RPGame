@@ -84,7 +84,6 @@ if config_json['screen']['mode'] == 1 and auth:
     screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN | pygame.DOUBLEBUF, 16)
     proc_x = pygame.display.get_surface().get_size()[0] / 300
     proc_y = pygame.display.get_surface().get_size()[1] / 200
-    print(proc_x, proc_y)
 elif config_json['screen']['mode'] == 2 and auth:
     screen = pygame.display.set_mode((config_json['screen']['width'], config_json['screen']['height']))
     proc_x = pygame.display.get_surface().get_size()[0] / 300
@@ -93,16 +92,14 @@ else:
     print("Error")
 
 pygame.display.set_caption('ProjectRed Adventures')
+pygame.event.set_allowed([pygame.QUIT, pygame.KEYDOWN, pygame.KEYUP])
 
 # fps
 clock = pygame.time.Clock()
 fps = config_json['fps']
 
 # create player
-start_x_player = 30 * proc_x
-start_y_player = 152 * proc_y
-
-player = Solider("default", start_x_player, start_y_player, 3, 10, screen)
+player = Solider("default", 30, 152, 10, 10, screen, proc_x, proc_y)
 
 
 # background
@@ -128,7 +125,6 @@ if __name__ == '__main__':
         player.update_animation()
         player.draw()
         screen.blit(base_font.render(str(int(clock.get_fps())), True, pygame.Color("white")), (10, 10))
-        pygame.display.update()  # update
         # event
         if player.alive:
             if moving_left or moving_right:
@@ -156,4 +152,5 @@ if __name__ == '__main__':
                 elif event_reject.key == pygame.K_SPACE:
                     player.jump = False
         player.move(moving_left, moving_right)
+        pygame.display.update()  # update
         clock.tick(fps)
