@@ -6,15 +6,15 @@ gravity = 0.75
 
 
 class Solider(pygame.sprite.Sprite):
-    def __init__(self, char_type, x, y, scale, speed, screen, proc_x, proc_y):
+    def __init__(self, char_type, x, y, scale_x, scale_y, speed, screen, proc_x, proc_y):
         pygame.sprite.Sprite.__init__(self)
         self.proc_x = proc_x
         self.proc_y = proc_y
         self.prev_time = time.time()
         self.dt = 0
         self.alive = True
-        self.scale_x = scale / self.proc_x
-        self.scale_y = scale / self.proc_y
+        self.scale_x = scale_x * self.proc_x
+        self.scale_y = scale_y * self.proc_y
         self.speed = speed
         self.animation_list = []
         self.frame_index = 0
@@ -28,13 +28,13 @@ class Solider(pygame.sprite.Sprite):
         temp_list = []
         for i in range(5):
             img = pygame.image.load(f'img/players/{self.char_type}/stay/{i}.png').convert()
-            img = pygame.transform.scale(img, (int(img.get_width() * self.scale_x), int(img.get_height() * self.scale_y)))
+            img = pygame.transform.scale(img, (int(self.scale_x), int(self.scale_y)))
             temp_list.append(img)
         self.animation_list.append(temp_list)
         temp_list = []
         for i in range(6):
             img = pygame.image.load(f'img/players/{self.char_type}/run/{i}.png').convert()
-            img = pygame.transform.scale(img, (int(img.get_width() * self.scale_x), int(img.get_height() * self.scale_y)))
+            img = pygame.transform.scale(img, (int(self.scale_x), int(self.scale_y)))
             temp_list.append(img)
         self.animation_list.append(temp_list)
         self.image = self.animation_list[self.action][self.frame_index]

@@ -99,7 +99,7 @@ clock = pygame.time.Clock()
 fps = config_json['fps']
 
 # create player
-player = Solider("default", 30, 152, 10, 10, screen, proc_x, proc_y)
+player = Solider("default", 30, 152, 20, 40, 10, screen, proc_x, proc_y)
 
 
 # background
