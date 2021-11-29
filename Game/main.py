@@ -1,17 +1,18 @@
+from tkinter import Canvas, Tk, StringVar, PhotoImage, Button, Entry
 from modules.player import Solider
 from modules.jsons import jsons
-from tkinter import *
+from threading import Thread
 import webbrowser
 import modloader
 import pygame
-import json
+import time
 import sys
-import os
 
 # value
 test_mod = True
 in_game = False
 auth = False
+fps_now = ""
 moving_left = False
 moving_right = False
 
@@ -26,8 +27,10 @@ def btn_clicked():
     auth = True
     tkinter.destroy()
 
+
 def openwebreg():
     webbrowser.open("https://projectredcite.herokuapp.com/reg")
+
 
 tkinter.title('ProjectRed Adventure Launcher')
 tkinter.geometry("600x350")
@@ -60,6 +63,8 @@ entry1.place(x=340.0, y=191, width=157.0, height=23)
 
 tkinter.resizable(False, False)
 tkinter.mainloop()
+
+
 # end
 
 
@@ -75,9 +80,7 @@ base_font = pygame.font.SysFont("Futura", 48)
 
 # json
 jsons().check()
-
-with open(os.path.expanduser(f"{os.getenv('APPDATA')}/ProjectRedAdventure/config.json"), "r") as json_file:
-    config_json = json.load(json_file)
+config_json = jsons().read()
 
 # screen stats
 if config_json['screen']['mode'] == 1 and auth:
@@ -115,42 +118,61 @@ modloader.mod(test_mod).load()
 # input
 user_text = ''
 
-# run
-if __name__ == '__main__':
-    if not auth:
-        stop()
+
+# tick
+def tick_start():
+    global fps_now, in_game
+    sleep = 0.02
+    time.sleep(0.5)
+    if clock.get_fps() <= 30:
+        sleep = 0.1
     while True:
-        # draw
-        draw_bg()
-        player.update_animation()
-        player.draw()
-        screen.blit(base_font.render(str(int(clock.get_fps())), True, pygame.Color("white")), (10, 10))
-        # event
+        if not in_game:
+            break
+        fps_now = str(int(clock.get_fps()))
         if player.alive:
             if moving_left or moving_right:
                 player.update_action(1)  # run
             else:
                 player.update_action(0)  # stay
-        # quit game
-        for event_reject in pygame.event.get():
-            if event_reject.type == pygame.QUIT:
-                stop()
-            elif event_reject.type == pygame.KEYDOWN:
-                if event_reject.key == pygame.K_a:
-                    moving_left = True
-                elif event_reject.key == pygame.K_ESCAPE:
+        time.sleep(sleep)
+
+
+# run
+if __name__ == '__main__':
+    if not auth:
+        stop()
+    elif auth:
+        Thread(target=tick_start).start()
+        in_game = True
+        while True:
+            # draw
+            draw_bg()
+            player.update_animation()
+            player.draw()
+            screen.blit(base_font.render(fps_now, True, pygame.Color("white")), (10, 10))
+            # event
+            for event_reject in pygame.event.get():
+                if event_reject.type == pygame.QUIT:
+                    in_game = False
                     stop()
-                elif event_reject.key == pygame.K_d:
-                    moving_right = True
-                elif event_reject.key == pygame.K_SPACE and player.alive:
-                    player.jump = True
-            elif event_reject.type == pygame.KEYUP:
-                if event_reject.key == pygame.K_a:
-                    moving_left = False
-                elif event_reject.key == pygame.K_d:
-                    moving_right = False
-                elif event_reject.key == pygame.K_SPACE:
-                    player.jump = False
-        player.move(moving_left, moving_right)
-        pygame.display.update()  # update
-        clock.tick(fps)
+                elif event_reject.type == pygame.KEYDOWN:
+                    if event_reject.key == pygame.K_a:
+                        moving_left = True
+                    elif event_reject.key == pygame.K_ESCAPE:
+                        in_game = False
+                        stop()
+                    elif event_reject.key == pygame.K_d:
+                        moving_right = True
+                    elif event_reject.key == pygame.K_SPACE and player.alive:
+                        player.jump = True
+                elif event_reject.type == pygame.KEYUP:
+                    if event_reject.key == pygame.K_a:
+                        moving_left = False
+                    elif event_reject.key == pygame.K_d:
+                        moving_right = False
+                    elif event_reject.key == pygame.K_SPACE:
+                        player.jump = False
+            player.move(moving_left, moving_right)
+            pygame.display.update()  # update
+            clock.tick(fps)
