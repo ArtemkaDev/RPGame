@@ -5,8 +5,10 @@ from threading import Thread
 import webbrowser
 import modloader
 import pygame
+import json
 import time
 import sys
+import os
 
 # value
 test_mod = True
@@ -80,7 +82,10 @@ base_font = pygame.font.SysFont("Futura", 48)
 
 # json
 jsons().check()
-config_json = jsons().read()
+with open(os.path.expanduser(f"{os.getenv('APPDATA')}/ProjectRedAdventure/config.json"), "r") as json_file:
+    config_json =  json.load(json_file)
+
+
 
 # screen stats
 if config_json['screen']['mode'] == 1 and auth:
