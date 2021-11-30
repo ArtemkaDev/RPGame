@@ -18,6 +18,13 @@ fps_now = ""
 moving_left = False
 moving_right = False
 
+
+# json
+jsons().check()
+with open(os.path.expanduser(f"{os.getenv('APPDATA')}/ProjectRedAdventure/config.json"), "r") as json_file:
+    config_json = json.load(json_file)
+
+
 # launcher
 tkinter = Tk()
 name = StringVar()
@@ -80,12 +87,6 @@ def stop():
 pygame.init()
 base_font = pygame.font.SysFont("Futura", 48)
 
-# json
-jsons().check()
-with open(os.path.expanduser(f"{os.getenv('APPDATA')}/ProjectRedAdventure/config.json"), "r") as json_file:
-    config_json =  json.load(json_file)
-
-
 
 # screen stats
 if config_json['screen']['mode'] == 1 and auth:
@@ -96,8 +97,7 @@ elif config_json['screen']['mode'] == 2 and auth:
     screen = pygame.display.set_mode((config_json['screen']['width'], config_json['screen']['height']))
     proc_x = pygame.display.get_surface().get_size()[0] / 300
     proc_y = pygame.display.get_surface().get_size()[1] / 200
-else:
-    print("Error")
+
 
 pygame.display.set_caption('ProjectRed Adventures')
 pygame.event.set_allowed([pygame.QUIT, pygame.KEYDOWN, pygame.KEYUP])

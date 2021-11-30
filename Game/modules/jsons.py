@@ -19,7 +19,6 @@ class jsons(object):
         self.name = f"{self.appdata}\ProjectRedAdventure"
         self.file_json = file_json
 
-
     def write_json(self):
         with open(f"{self.name}\config.json", "w+") as outfile:
             json.dump(self.file_json, outfile, indent=4)
@@ -36,35 +35,30 @@ class jsons(object):
                 self.write_json()
             with open(os.path.expanduser(f"{self.name}\config.json"), "r") as json_file:
                 config_json = json.load(json_file)
+
             dif_json = jsondiff.diff(self.file_json, config_json)
-            try:
-                if isinstance(dif_json[jsondiff.delete], list):
-                    for ix in range(len(dif_json)):
-                        to_update = {f"{dif_json[jsondiff.delete][ix - 1]}": self.file_json[dif_json[jsondiff.delete][ix - 1]]}
-                        config_json.update(to_update)
-                    with open(os.path.expanduser(f"{self.name}\config.json"),
-                              "w") as json_file:
-                        json.dump(config_json, json_file, indent=4)
-                    to_update = {}
-
-                if isinstance(dif_json["screen"][jsondiff.delete], list):
-                    nix_apend = {}
-                    nix_apend.update(config_json["screen"])
-                    for nix in range(len(dif_json["screen"][jsondiff.delete])):
-                        nix_dif_update = dif_json["screen"][jsondiff.delete][nix - 1]
-                        nix_type_update = {f"{nix_dif_update}": self.file_json["screen"][dif_json["screen"][jsondiff.delete][nix - 1]]}
-                        nix_apend.update(nix_type_update)
-                    to_update = {"screen": nix_apend}
-                    print(to_update)
-                    config_json.update(to_update)
-                    with open(os.path.expanduser(f"{self.name}\config.json"),
-                              "w") as json_file:
-                        json.dump(config_json, json_file, indent=4)
-                    to_update = {}
-
-                with open(os.path.expanduser(f"{self.name}\config.json"), "r") as json_file:
-                    config_json = json.load(json_file)
-                dif_json = jsondiff.diff(self.file_json, config_json)
-            except:
+            if dif_json == {}:
                 pass
-
+            else:
+                for ix in range(len(dif_json)):
+                    if isinstance(dif_json[list(dif_json)[ix]], dict):
+                        nix_apend = {}
+                        nix_apend.update(self.file_json[list(dif_json)[ix]])
+                        try:
+                            for nix in range(len(dif_json[list(dif_json)[ix]][jsondiff.delete])):
+                                nix_dif_update = dif_json[list(dif_json)[ix]][jsondiff.delete][nix]
+                                nix_type_update = {f"{nix_dif_update}": self.file_json[list(dif_json)[ix]][
+                                    dif_json[list(dif_json)[ix]][jsondiff.delete][nix]]}
+                                nix_apend.update(nix_type_update)
+                            to_update = {f"{list(dif_json)[ix]}": nix_apend}
+                            config_json.update(to_update)
+                        except:
+                            pass
+                    else:
+                        try:
+                            to_update = {f"{dif_json[jsondiff.delete][ix]}": self.file_json[dif_json[jsondiff.delete][ix]]}
+                            config_json.update(to_update)
+                        except:
+                            pass
+                with open(os.path.expanduser(f"{self.name}\config.json"), "w") as json_file:
+                    json.dump(config_json, json_file, indent=4)
