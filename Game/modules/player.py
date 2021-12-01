@@ -23,6 +23,8 @@ class Solider(pygame.sprite.Sprite):
         self.vel_y = 0
         self.jump = False
         self.flip = False
+        self.moving_left = False
+        self.moving_right = False
         self.char_type = char_type
         self.update_time = pygame.time.get_ticks()
         temp_list = []
@@ -48,25 +50,28 @@ class Solider(pygame.sprite.Sprite):
         self.prev_time = time.time()
         self.screen.blit(pygame.transform.flip(self.image, self.flip, False), self.rect)
 
-    def move(self, moving_left, moving_right):
+    def move(self):
         dx = 0
         dy = 0
-        if moving_left:
+        if self.moving_left:
             self.flip = True
             dx = -self.speed * self.dt
-        if moving_right:
+        if self.moving_right:
             self.flip = False
             dx = self.speed * self.dt
         if self.jump == True:
-            self.vel_y = 0
+            self.vel_y = 10 * self.dt * -1
             self.jump = False
         #gravity
-        '''
         self.vel_y += gravity
         if self.vel_y > 10:
             self.vel_y
-        dy += self.vel_y * self.dt'''
+        dy += self.vel_y * self.dt
 
+        if self.rect.bottom + dy > 180 * self.proc_y:
+            dy = 180 * self.proc_y - self.rect.bottom
+
+        #update
         self.rect.x += dx
         self.rect.y += dy
 

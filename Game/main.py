@@ -162,22 +162,22 @@ if __name__ == '__main__':
                     in_game = False
                     stop()
                 elif event_reject.type == pygame.KEYDOWN:
-                    if event_reject.key == pygame.K_a:
-                        moving_left = True
-                    elif event_reject.key == pygame.K_ESCAPE:
+                    if event_reject.key == pygame.K_ESCAPE:
                         in_game = False
                         stop()
+                    elif event_reject.key == pygame.K_a:
+                        player.moving_left = True
                     elif event_reject.key == pygame.K_d:
-                        moving_right = True
+                        player.moving_right = True
                     elif event_reject.key == pygame.K_SPACE and player.alive:
                         player.jump = True
                 elif event_reject.type == pygame.KEYUP:
                     if event_reject.key == pygame.K_a:
-                        moving_left = False
+                        player.moving_left = False
                     elif event_reject.key == pygame.K_d:
-                        moving_right = False
+                        player.moving_right = False
                     elif event_reject.key == pygame.K_SPACE:
                         player.jump = False
-            player.move(moving_left, moving_right)
+            player.move()
             pygame.display.update()  # update
             clock.tick(fps)
