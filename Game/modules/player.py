@@ -59,8 +59,8 @@ class Solider(pygame.sprite.Sprite):
         if self.moving_right:
             self.flip = False
             dx = self.speed * self.dt
-        if self.jump == True:
-            self.vel_y = 10 * self.dt * -1
+        if self.jump:
+            self.vel_y = 10 * self.proc_y * -1
             self.jump = False
         #gravity
         self.vel_y += gravity
