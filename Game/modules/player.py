@@ -4,6 +4,12 @@ import time
 # global values
 gravity = 0.75
 
+player_type = {
+    "default": {
+        "jump_strength": 10
+    }
+}
+
 
 class Solider(pygame.sprite.Sprite):
     def __init__(self, char_type, x, y, scale_x, scale_y, speed, screen, proc_x, proc_y):
@@ -12,6 +18,7 @@ class Solider(pygame.sprite.Sprite):
         self.proc_y = proc_y
         self.prev_time = time.time()
         self.dt = 0
+        self.player_type = player_type
         self.alive = True
         self.scale_x = scale_x * self.proc_x
         self.scale_y = scale_y * self.proc_y
@@ -43,6 +50,8 @@ class Solider(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = (x*self.proc_x, y*self.proc_y)
         self.screen = screen
+        if char_type == "default":
+            self.jump_strength = player_type['default']['jump_strength']
 
     def draw(self):
         self.dt = time.time() - self.prev_time
@@ -60,13 +69,13 @@ class Solider(pygame.sprite.Sprite):
             self.flip = False
             dx = self.speed * self.dt
         if self.jump:
-            self.vel_y = 10 * self.proc_y * -1
+            self.vel_y = self.jump_strength * -1
             self.jump = False
         #gravity
         self.vel_y += gravity
         if self.vel_y > 10:
             self.vel_y
-        dy += self.vel_y * self.dt
+        dy += self.vel_y
 
         if self.rect.bottom + dy > 180 * self.proc_y:
             dy = 180 * self.proc_y - self.rect.bottom
