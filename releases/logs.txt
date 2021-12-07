@@ -5,3 +5,7 @@ Game working!
 v0.0.2
 22.11.2021
 Game is better and we have launcher!
+
+v0.0.3
+07.12.2021
+We have mod loader and checker JSON (can be call auto update JSON) and physic.

@@ -11,7 +11,7 @@ import sys
 import os
 
 # value
-test_mod = True
+test_mod = False
 in_game = False
 auth = False
 fps_now = ""
@@ -143,6 +143,7 @@ def tick_start():
                 player.update_action(1)  # run
             else:
                 player.update_action(0)  # stay
+        player.move()
         time.sleep(sleep)
 
 
@@ -178,7 +179,6 @@ def main_start():
                     player.moving_right = False
                 elif event_reject.key == pygame.K_SPACE:
                     player.jump = False
-        player.move()
         pygame.display.update()  # update
         clock.tick(fps)
 
