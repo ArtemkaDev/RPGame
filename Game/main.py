@@ -11,7 +11,7 @@ import sys
 import os
 
 # value
-test_mod = False
+test_mod = True
 in_game = False
 auth = False
 fps_now = ""
