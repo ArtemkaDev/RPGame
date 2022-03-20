@@ -49,8 +49,7 @@ class jsons(object):
                                 try:
                                     for nix in range(len(dif_json[list(dif_json)[ix]][jsondiff.delete])):
                                         nix_dif_update = dif_json[list(dif_json)[ix]][jsondiff.delete][nix]
-                                        nix_type_update = {f"{nix_dif_update}": self.file_json[list(dif_json)[ix]][
-                                            dif_json[list(dif_json)[ix]][jsondiff.delete][nix]]}
+                                        nix_type_update = {f"{nix_dif_update}": self.file_json[list(dif_json)[ix]][dif_json[list(dif_json)[ix]][jsondiff.delete][nix]]}
                                         nix_apend.update(nix_type_update)
                                     to_update = {f"{list(dif_json)[ix]}": nix_apend}
                                     config_json.update(to_update)
